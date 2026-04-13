@@ -1,7 +1,11 @@
 import { ApiResponse, Contact } from "@/types/contact";
 
 //Define the API base URL
-const API_BASE_URL = "https://test.icomm.ai/api/contacts/public/list";
+const API_BASE_URL = process.env.CONTACT_API_URL;
+
+if(!API_BASE_URL) {
+  throw new Error("CONTACT_API_URL is not defined in the environment variables");
+}
 
 //Function to fetch contacts from the API
 export async function fetchContacts(params: {
