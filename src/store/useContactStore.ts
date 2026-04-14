@@ -3,14 +3,24 @@ import { Contact } from "@/types/contact";
 
 // Define the contact store interface
 interface contactStore {
-  selectedContact: Contact | null;
-  setSelectedContact: (contact: Contact | null) => void;
+  contacts: Contact[];
+  setContacts: (contacts: Contact[]) => void;
+
+  loading: boolean;
+  setLoading: (loading: boolean) => void;
+
+  error: string | null;
+  setError: (error: string | null) => void;
 }
-
-
 
 // Create the contact store using Zustand
 export const useContactStore = create<contactStore>((set) => ({
-  selectedContact: null,
-  setSelectedContact: (contact) => set({ selectedContact: contact }),
+  contacts: [],
+  setContacts: (contacts) => set({ contacts }),
+
+  loading: false,
+  setLoading: (loading) => set({ loading }),
+
+  error: null,
+  setError: (error) => set({ error }),
 }));

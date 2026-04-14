@@ -1,3 +1,12 @@
+interface metaData {
+  _id: string;
+  name: string;
+  value: string;
+  type: string;
+  createdAt: string;
+  updatedAt: string;
+}
+
 //define the contact type
 export interface Contact {
   _id: string;
@@ -17,8 +26,8 @@ export interface Contact {
   createdAt: string;
   updatedAt: string;
   lists: any[];
-  source: "Source";
-  status: "Status";
+  source: metaData;
+  status: metaData;
 }
 
 // Define the api response type

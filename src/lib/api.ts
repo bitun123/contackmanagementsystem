@@ -1,10 +1,11 @@
 import { ApiResponse, Contact } from "@/types/contact";
 
 //Define the API base URL
-const API_BASE_URL = process.env.CONTACT_API_URL;
+const API_BASE_URL = process.env.NEXT_PUBLIC_API_URL;
+console.log("API_BASE_URL:", API_BASE_URL);
 
 if(!API_BASE_URL) {
-  throw new Error("CONTACT_API_URL is not defined in the environment variables");
+  throw new Error("NEXT_PUBLIC_API_URL is not defined in the environment variables");
 }
 
 //Function to fetch contacts from the API
