@@ -11,26 +11,28 @@ import {
   ArrowLeft,
 } from "lucide-react";
 import { useRouter } from "next/navigation";
+import { useEffect } from "react";
 
 function Profile({ id }: { id: string }) {
-
-    // Get contacts from the custom hook and find the specific contact by ID
+  // Get contacts from the custom hook and find the specific contact by ID
   const { contacts } = useContact();
   const router = useRouter();
-
 
   // Find the contact with the matching ID from the contacts array
   const contact = contacts.find((c) => c._id === id);
 
- 
   if (!contact) {
     return <p>Contact not found</p>;
   }
 
-
   // Handle back button click to navigate to the previous page
   const handleBack = () => {
     router.back();
+  };
+
+  const handleCopyEmail = () => {
+    navigator.clipboard.writeText(contact.email);
+    alert("Email copied to clipboard!");
   };
 
   return (
@@ -82,6 +84,12 @@ function Profile({ id }: { id: string }) {
                   <p className="text-sm sm:text-base text-gray-900 break-all">
                     {contact.email}
                   </p>
+                  <button
+                    className="text-blue-600 hover:text-blue-800 text-sm font-medium"
+                    onClick={handleCopyEmail}
+                  >
+                    copy
+                  </button>
                 </div>
               </div>
 
@@ -143,6 +151,7 @@ function Profile({ id }: { id: string }) {
               </div>
 
               {/* Remarks */}
+
               {contact.remarks && (
                 <div className="pt-4 border-t border-gray-200">
                   <p className="text-xs font-semibold uppercase tracking-wider text-gray-500 mb-2">

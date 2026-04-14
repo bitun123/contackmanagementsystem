@@ -9,13 +9,13 @@ function SearchBar() {
   const [value, setValue] = useState<string>("");
 
   useEffect(() => {
-    if (!value) return;
+ 
     const timer = setTimeout(() => {
       getcontacts({ search: value });
-    }, 500);
+    }, 1000);
 
     return () => clearTimeout(timer);
-  }, [value, getcontacts]);
+  }, [value]);
 
   return (
     <div className="w-full bg-gray-300 flex items-center justify-center mb-6  rounded-4xl p-2">

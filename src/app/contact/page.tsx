@@ -31,7 +31,7 @@ function ContactPage() {
         <NativeSelectDemo />
       </div>
       {contacts.length === 0 ? (
-        <p className="text-gray-500 mt-6 text-sm sm:text-base">No data found</p>
+        <p className="text-center text-gray-500 mt-10">No contacts found.</p>
       ) : (
         <div className="w-full min-h-screen  flex  flex-wrap gap-6 justify-start">
           {contacts.map((contact) =>
