@@ -22,7 +22,7 @@ function SearchBar() {
       <input
         type="text"
         placeholder="Search contacts..."
-        className="text-xl text-black outline-none border-none px-5 py-3  rounded-4xl  bg-gray-400 w-[40%] "
+        className="text-xl text-black outline-none border-none px-5 py-3  rounded-4xl  bg-gray-400 lg:w-[40%] w-full "
         value={value}
         onChange={(e) => setValue(e.target.value)}
       />

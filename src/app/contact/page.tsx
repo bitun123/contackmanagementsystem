@@ -9,6 +9,7 @@ import SearchBar from "@/components/ui/SearchBar";
 import { SkeletonCard } from "@/components/ui/SkeletonCard";
 import { useRouter } from "next/navigation";
 import { NativeSelectDemo } from "@/components/ui/EmailStatusFilter";
+import { PaginationDemo } from "@/components/ui/Paginate";
 
 function ContactPage() {
   const router = useRouter();
@@ -26,9 +27,9 @@ function ContactPage() {
     <div className="p-3 xs:p-4 sm:p-5 md:p-6 lg:p-8 w-full min-h-screen bg-gray-50">
       <SearchBar />
 
-   <div>
-       <NativeSelectDemo/>
-   </div>
+      <div>
+        <NativeSelectDemo />
+      </div>
       {contacts.length === 0 ? (
         <p className="text-gray-500 mt-6 text-sm sm:text-base">No data found</p>
       ) : (
@@ -37,11 +38,13 @@ function ContactPage() {
             loading ? (
               <SkeletonCard key={contact._id} />
             ) : (
-              <ContactCard key={contact._id} contact={contact}  />
+              <ContactCard key={contact._id} contact={contact} />
             ),
           )}
         </div>
       )}
+
+      <PaginationDemo />
     </div>
   );
 }
