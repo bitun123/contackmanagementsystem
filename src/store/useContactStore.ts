@@ -24,6 +24,9 @@ interface contactStore {
 
   total: number;
   setTotal: (total: number) => void;
+
+  darkMode: boolean;
+  setDarkMode: (darkMode: boolean) => void;
 }
 
 // Create the contact store using Zustand
@@ -48,4 +51,7 @@ export const useContactStore = create<contactStore>((set) => ({
 
   total: 0,
   setTotal: (total) => set({ total }),
+
+  darkMode: false,
+  setDarkMode: (darkMode) => set({ darkMode }),
 }));

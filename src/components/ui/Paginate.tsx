@@ -45,7 +45,7 @@ export function PaginationDemo({ onPageChange }: PaginateProps) {
       const endPage = Math.min(totalPages - 1, currentPage + 1);
 
       if (startPage > 2) {
-        pages.push('...');
+        pages.push("...");
       }
 
       for (let i = startPage; i <= endPage; i++) {
@@ -53,7 +53,7 @@ export function PaginationDemo({ onPageChange }: PaginateProps) {
       }
 
       if (endPage < totalPages - 1) {
-        pages.push('...');
+        pages.push("...");
       }
 
       // Show last page
@@ -74,14 +74,18 @@ export function PaginationDemo({ onPageChange }: PaginateProps) {
         <PaginationItem>
           <PaginationPrevious
             onClick={() => handlePageChange(currentPage - 1)}
-            className={currentPage === 1 ? 'pointer-events-none opacity-50' : 'cursor-pointer'}
+            className={
+              currentPage === 1
+                ? "pointer-events-none opacity-50"
+                : "cursor-pointer"
+            }
           />
         </PaginationItem>
 
         {/* Page Numbers */}
         {pageNumbers.map((page, index) => (
           <PaginationItem key={index}>
-            {page === '...' ? (
+            {page === "..." ? (
               <PaginationEllipsis />
             ) : (
               <PaginationLink
@@ -100,7 +104,9 @@ export function PaginationDemo({ onPageChange }: PaginateProps) {
           <PaginationNext
             onClick={() => handlePageChange(currentPage + 1)}
             className={
-              currentPage === totalPages ? 'pointer-events-none opacity-50' : 'cursor-pointer'
+              currentPage === totalPages
+                ? "pointer-events-none opacity-50"
+                : "cursor-pointer"
             }
           />
         </PaginationItem>

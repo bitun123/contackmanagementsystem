@@ -42,6 +42,7 @@ export function useContact() {
       setLoading(false);
     }
   };
+  console.log(loading,  "loading ####")
 
   // Return the contacts, pagination info, loading state, error state, and the function to fetch contacts
   return {

@@ -45,7 +45,7 @@ function ContactCard({ contact }: { contact: Contact }) {
     router.push(`/contact/${id}`);
   };
   return (
-    <div className="w-full max-w-md rounded-lg border h-[13rem] border-gray-200 bg-white p-3 sm:p-4 md:p-5 lg:p-6 shadow-sm">
+    <div className="cursor-pointer w-full max-w-md rounded-lg border h-[13rem] border-gray-200 bg-white p-3 sm:p-4 md:p-5 lg:p-6 shadow-sm">
       {/* Header */}
       <div className="relative flex flex-col xs:flex-row xs:items-start xs:justify-between mb-3 xs:mb-4 gap-2 xs:gap-3 w-full">
         <div className="flex items-center gap-2 xs:gap-3 sm:gap-4 flex-1 min-w-0">
