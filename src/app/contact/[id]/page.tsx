@@ -1,6 +1,18 @@
 
 
+import Profile from "@/components/ui/Profile";
 
-export async function detailPage (){
-    
+interface PageProps {
+  params: {
+    id: string;
+  };
+}
+
+export default async function Page({ params }: PageProps) {
+  const { id } = await params;
+  
+
+  return (
+<Profile id={id} />
+  )
 }

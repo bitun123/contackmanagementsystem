@@ -1,5 +1,6 @@
 import { Contact } from "@/types/contact";
 import { Mail, MapPin, Calendar } from "lucide-react";
+import { useRouter } from "next/navigation";
 
 // Define status colors for different email statuses
 const statusColors: Record<string, { bg: string; text: string; dot: string }> =
@@ -35,9 +36,14 @@ const statusColors: Record<string, { bg: string; text: string; dot: string }> =
   /* ContactCard component to display individual contact information */
 }
 function ContactCard({ contact }: { contact: Contact }) {
+  const router = useRouter();
   // Get the appropriate colors based on the contact's email status
   const statusColor =
     statusColors[contact.emailStatus] || statusColors["unverified"];
+
+  const handleClick = (id: string): void => {
+    router.push(`/contact/${id}`);
+  };
   return (
     <div className="w-full max-w-md rounded-lg border h-[13rem] border-gray-200 bg-white p-3 sm:p-4 md:p-5 lg:p-6 shadow-sm">
       {/* Header */}
@@ -57,7 +63,9 @@ function ContactCard({ contact }: { contact: Contact }) {
             </h3>
             <div className="flex items-center gap-1 xs:gap-2 text-xs xs:text-sm text-gray-600 min-w-0">
               <Mail size={14} className="xs:w-4 xs:h-4 flex-shrink-0" />
-              <span className="break-all text-xs xs:text-sm">{contact.email}</span>
+              <span className="break-all text-xs xs:text-sm">
+                {contact.email}
+              </span>
             </div>
           </div>
         </div>
@@ -78,7 +86,10 @@ function ContactCard({ contact }: { contact: Contact }) {
       <div className="grid grid-cols-1 sm:grid-cols-2 gap-3 xs:gap-4">
         {/* Location */}
         <div className="flex items-start gap-2 xs:gap-3">
-          <MapPin size={16} className="mt-0.5 xs:mt-1 flex-shrink-0 text-gray-500 xs:w-4 xs:h-4" />
+          <MapPin
+            size={16}
+            className="mt-0.5 xs:mt-1 flex-shrink-0 text-gray-500 xs:w-4 xs:h-4"
+          />
           <div className="min-w-0 flex-1">
             <p className="text-xs font-semibold uppercase tracking-wide text-gray-500">
               Location
@@ -90,8 +101,11 @@ function ContactCard({ contact }: { contact: Contact }) {
         </div>
 
         {/* Last Contact */}
-        <div className="flex items-start gap-2 xs:gap-3">
-          <Calendar size={16} className="mt-0.5 xs:mt-1 flex-shrink-0 text-gray-500 xs:w-4 xs:h-4" />
+        <div className="flex items-start gap-2 xs:gap-3 relative">
+          <Calendar
+            size={16}
+            className="mt-0.5 xs:mt-1 flex-shrink-0 text-gray-500 xs:w-4 xs:h-4"
+          />
           <div className="min-w-0 flex-1">
             <p className="text-xs font-semibold uppercase tracking-wide text-gray-500">
               Last Contact
@@ -100,6 +114,15 @@ function ContactCard({ contact }: { contact: Contact }) {
               {contact.dateOfLastContact.slice(0, 10)}
             </p>
           </div>
+          <button
+            className="absolute top-14 right-1  text-amber-600 active:scale-95 cursor-pointer"
+            onClick={() => {
+              handleClick(contact._id);
+            }}
+          >
+            {" "}
+            View Details
+          </button>
         </div>
       </div>
     </div>
