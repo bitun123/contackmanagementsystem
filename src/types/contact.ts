@@ -1,4 +1,4 @@
-interface metaData {
+interface childData {
   _id: string;
   name: string;
   value: string;
@@ -26,8 +26,8 @@ export interface Contact {
   createdAt: string;
   updatedAt: string;
   lists: any[];
-  source: metaData;
-  status: metaData;
+  source: childData;
+  status: childData;
 }
 
 // Define the api response type

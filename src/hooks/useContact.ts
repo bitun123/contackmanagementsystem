@@ -25,7 +25,6 @@ export function useContact() {
     }
   };
 
-
   // Return the contacts, loading state, error state, and the function to fetch contacts
   return { getcontacts, loading, contacts, error };
 }
