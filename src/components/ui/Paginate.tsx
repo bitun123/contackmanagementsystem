@@ -1,4 +1,4 @@
-'use client';
+"use client";
 
 import {
   Pagination,
@@ -68,7 +68,7 @@ export function PaginationDemo({ onPageChange }: PaginateProps) {
   const pageNumbers = generatePageNumbers();
 
   return (
-    <Pagination className="mt-8">
+    <Pagination className="justify-end items-center flex ">
       <PaginationContent>
         {/* Previous Button */}
         <PaginationItem>

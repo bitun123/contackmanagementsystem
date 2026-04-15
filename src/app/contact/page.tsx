@@ -14,16 +14,16 @@ function ContactPage() {
   }, []);
 
   return (
-    <div className="p-3 xs:p-4 sm:p-5 md:p-6 lg:p-8 w-full min-h-screen bg-gray-50">
+    <div className="p-3 xs:p-4 sm:p-5 md:p-6 lg:p-8 w-full min-h-screen bg-gray-50 dark:bg-gray-900 transition-colors ">
       <SearchBar />
 
-      <div>
+      <div className="w-full flex items-center justify-between mb-6">
         <NativeSelectDemo />
+        <PaginationDemo />
       </div>
       {loading ? (
-        //  <SkeletonCard key={contact._id} />
         <div className="flex items-center justify-center">
-          <p>Loading...</p>
+          <p className="text-gray-900 dark:text-gray-100">Loading...</p>
         </div>
       ) : (
         <div className="w-full min-h-screen  flex  flex-wrap gap-6 justify-start">
@@ -32,14 +32,12 @@ function ContactPage() {
               <ContactCard key={contact._id} contact={contact} />
             ))
           ) : (
-            <p className="text-center text-gray-500 mt-10">
+            <p className="text-center text-gray-500 dark:text-gray-400 mt-10">
               No contacts found.
             </p>
           )}
         </div>
       )}
-
-      <PaginationDemo />
     </div>
   );
 }

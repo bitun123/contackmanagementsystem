@@ -2,6 +2,7 @@
 
 import { useContact } from "@/hooks/useContact";
 import { useEffect, useState } from "react";
+import { ThemeToggle } from "./ThemeToggle";
 
 function SearchBar() {
   const { getcontacts } = useContact();
@@ -9,7 +10,6 @@ function SearchBar() {
   const [value, setValue] = useState<string>("");
 
   useEffect(() => {
- 
     const timer = setTimeout(() => {
       getcontacts({ search: value });
     }, 1000);
@@ -18,14 +18,17 @@ function SearchBar() {
   }, [value]);
 
   return (
-    <div className="w-full bg-gray-300 flex items-center justify-center mb-6  rounded-4xl p-2">
+    <div className="w-full bg-[#F9FAFB]  dark:bg-[#101828] flex items-center justify-between transition-colors border-b border-gray-200 dark:border-gray-600 mb-6 px-2 py-2 shadow-sm">
+      <h1 className="text-xl font-bold ">Contact</h1>
+
       <input
         type="text"
         placeholder="Search contacts..."
-        className="text-xl text-black outline-none border-none px-5 py-3  rounded-4xl  bg-gray-400 lg:w-[40%] w-full "
+        className="text-xl text-black dark:text-white outline-none border-none px-5 py-3  rounded-4xl  bg-gray-400 dark:bg-gray-600 placeholder-gray-600 dark:placeholder-gray-300 lg:w-[40%] w-full transition-colors"
         value={value}
         onChange={(e) => setValue(e.target.value)}
       />
+      <ThemeToggle />
     </div>
   );
 }
