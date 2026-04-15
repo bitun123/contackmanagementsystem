@@ -13,6 +13,8 @@ function ContactPage() {
     getcontacts({ page: 1, limit: 10 });
   }, []);
 
+
+  
   return (
     <div className="p-3 xs:p-4 sm:p-5 md:p-6 lg:p-8 w-full min-h-screen bg-gray-50 dark:bg-gray-900 transition-colors ">
       <SearchBar />
