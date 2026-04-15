@@ -18,8 +18,8 @@ function SearchBar() {
   }, [value]);
 
   return (
-    <div className="w-full bg-[#F9FAFB]  dark:bg-[#101828] flex items-center justify-between transition-colors border-b border-gray-200 dark:border-gray-600 mb-6 px-2 py-2 shadow-sm">
-      <h1 className="text-xl font-bold ">Contact</h1>
+    <div className="w-full bg-[#F9FAFB]  dark:bg-[#101828] flex items-center  gap-2 justify-between transition-colors border-b border-gray-200 dark:border-gray-600 mb-6 px-2 py-2 shadow-sm">
+      <h1 className="text-xl font-bold hidden lg:block">Contact</h1>
 
       <input
         type="text"
