@@ -26,7 +26,7 @@ function ContactPage() {
           <p className="text-gray-900 dark:text-gray-100">Loading...</p>
         </div>
       ) : (
-        <div className="w-full min-h-screen  flex  flex-wrap gap-6 justify-start">
+        <div className="w-full min-h-screen  flex  flex-wrap gap-6 justify-center">
           {contacts?.length > 0 ? (
             contacts.map((contact) => (
               <ContactCard key={contact._id} contact={contact} />
