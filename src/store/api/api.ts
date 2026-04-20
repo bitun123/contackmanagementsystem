@@ -1,5 +1,5 @@
 import { createAsyncThunk } from "@reduxjs/toolkit";
-import { Contact, ApiResponse } from "../types/contact";
+import { Contact, ApiResponse } from "../../types/contact";
 
 const API_BASE_URL = process.env.NEXT_PUBLIC_API_URL;
 
@@ -7,11 +7,13 @@ if (!API_BASE_URL) {
   throw new Error("API base URL is not defined in environment variables.");
 }
 
+//fetch contacts with pagination, search, and email status filtering
+
 export const fetchContactsThunk = createAsyncThunk<
   ApiResponse<Contact>,
   { search?: string; page?: number; limit?: number; emailStatus?: string },
-  { rejectValue: string; state: any }
->("fetchContacts", async (params, { rejectWithValue, signal }) => {
+  { rejectValue: string; state: void }
+>("contact/fetchContactsThunk", async (params, { rejectWithValue, signal }) => {
   try {
     const queryParams = new URLSearchParams();
     if (params.page) queryParams.append("page", params.page.toString());

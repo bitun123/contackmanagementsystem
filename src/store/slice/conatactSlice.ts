@@ -1,8 +1,15 @@
+/**
+ *this component is client side component because it uses react hooks and interacts with the DOM.
+ *It is responsible for managing the state of contacts, including fetching contacts from the API,
+ * handling loading and error states, managing pagination, search functionality, and dark mode toggle.
+ **/
+
 "use client";
 import { createSlice, PayloadAction } from "@reduxjs/toolkit";
 import { Contact } from "../../types/contact";
-import { fetchContactsThunk } from "../../lib/api";
+import { fetchContactsThunk } from "../api/api";
 
+// Define the shape of the contact state
 interface ContactState {
   contacts: Contact[];
   loading: boolean;
@@ -17,6 +24,7 @@ interface ContactState {
   searchQuery: string;
 }
 
+// Initial state for the contact slice
 const initialState: ContactState = {
   contacts: [],
   loading: false,
@@ -31,6 +39,7 @@ const initialState: ContactState = {
   searchQuery: "",
 };
 
+// Create the contact slice
 const contactSlice = createSlice({
   name: "contact",
   initialState,
@@ -41,12 +50,7 @@ const contactSlice = createSlice({
     setSelectedContact: (state, action: PayloadAction<Contact | null>) => {
       state.selectedContact = action.payload;
     },
-    setLoading: (state, action: PayloadAction<boolean>) => {
-      state.loading = action.payload;
-    },
-    setError: (state, action: PayloadAction<string | null>) => {
-      state.error = action.payload;
-    },
+
     setDarkMode: (state, action: PayloadAction<boolean>) => {
       state.darkMode = action.payload;
     },
@@ -97,11 +101,10 @@ const contactSlice = createSlice({
   },
 });
 
+// Export actions and reducer
 export const {
   setContacts,
   setSelectedContact,
-  setLoading,
-  setError,
   setDarkMode,
   setCurrentPage,
   setTotalPages,

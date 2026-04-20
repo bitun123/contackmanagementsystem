@@ -32,7 +32,7 @@ function PopupCreateContactPage({
   const onSubmit = (data: ContactFormInput) => {
     const now = new Date().toISOString();
     const newContact: Contact = {
-      _id: Math.random().toString(36).substr(2, 9), // Temporary ID
+      _id: Math.random().toString(36).substr(2, 9),
       firstName: data.firstName,
       lastName: data.lastName,
       name: `${data.firstName} ${data.lastName}`,

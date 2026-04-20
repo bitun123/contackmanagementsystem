@@ -3,7 +3,7 @@
 import { useDispatch, useSelector } from "react-redux";
 
 import { RootState, AppDispatch } from "@/store/store";
-import { fetchContactsThunk } from "../lib/api";
+import { fetchContactsThunk } from "../store/api/api";
 import {
   setCurrentPage,
   setEmailStatus,
