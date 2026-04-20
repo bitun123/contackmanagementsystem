@@ -3,13 +3,19 @@
 import { useContact } from "@/hooks/useContact";
 import { useEffect, useState } from "react";
 import { ThemeToggle } from "./ThemeToggle";
+import PopupCreateContactPage from "./PopupCreateContactPage";
 
 function SearchBar() {
   const { getContacts } = useContact();
+  const [open, setopen] = useState(false);
 
   const [value, setValue] = useState<string>("");
 
   useEffect(() => {
+    if (value.trim() === "") {
+ 
+      return;
+    }
     const timer = setTimeout(() => {
       getContacts({ search: value });
     }, 1000);
@@ -28,7 +34,17 @@ function SearchBar() {
         value={value}
         onChange={(e) => setValue(e.target.value)}
       />
-      <ThemeToggle />
+
+      <div className="flex gap-2">
+        <button
+          onClick={() => setopen(true)}
+          className=" cursor-pointer active:scale-95 px-4 py-2 bg-blue-600 dark:bg-blue-700 text-white rounded-lg hover:bg-blue-700 dark:hover:bg-blue-600 transition-colors"
+        >
+          Create A New Contact
+        </button>
+        <ThemeToggle />
+      </div>
+      {open && <PopupCreateContactPage open={open} setOpen={setopen} />}
     </div>
   );
 }

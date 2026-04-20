@@ -9,20 +9,25 @@ import {
   Archive,
   CheckCircle2,
   ArrowLeft,
+  Trash2,
 } from "lucide-react";
 import { useRouter } from "next/navigation";
+import { setContacts } from "@/store/slice/conatactSlice";
+import { useDispatch } from "react-redux";
 
 function Profile({ id }: { id: string }) {
   // Get contacts from the custom hook and find the specific contact by ID
   const { contacts } = useContact();
   const router = useRouter();
-
+  const dispatch = useDispatch();
   // Find the contact with the matching ID from the contacts array
   const contact = contacts.find((c) => c._id === id);
 
   if (!contact) {
     return <p>Contact not found</p>;
   }
+
+
 
   // Handle back button click to navigate to the previous page
   const handleBack = () => {
@@ -32,6 +37,15 @@ function Profile({ id }: { id: string }) {
   const handleCopyEmail = () => {
     navigator.clipboard.writeText(contact.email);
     alert("Email copied to clipboard!");
+  };
+
+  const handleDelete = () => {
+    if (!window.confirm("Are you sure you want to delete this contact?"))
+      return;
+
+    const updatedContacts = contacts.filter((c) => c._id !== id);
+    dispatch(setContacts(updatedContacts));
+    router.back();
   };
 
   return (
@@ -64,6 +78,15 @@ function Profile({ id }: { id: string }) {
                   {contact.name}
                 </h1>
               </div>
+
+              {/* Delete Button UI Only */}
+              <button
+                className="cursor-pointer mt-1 sm:mt-2 text-white/80 hover:text-white bg-red-600/60 hover:bg-red-600 p-2 rounded-lg transition-all"
+                aria-label="Delete contact"
+                onClick={handleDelete}
+              >
+                <Trash2 size={24} />
+              </button>
             </div>
           </div>
 

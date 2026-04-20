@@ -6,16 +6,21 @@ import SearchBar from "@/components/ui/SearchBar";
 import { NativeSelectDemo } from "@/components/ui/EmailStatusFilter";
 import { PaginationDemo } from "@/components/ui/Paginate";
 import { useContact } from "@/hooks/useContact";
+import { useSelector } from "react-redux";
+import { RootState } from "@/store/store";
 
 function ContactPage() {
-  const { getContacts, loading, contacts } = useContact();
+  const { getContacts, contacts } = useContact();
+
+  const { loading } = useSelector((state: RootState) => state.contact);
 
   useEffect(() => {
-    getContacts({ page: 1, limit: 10 });
-  }, []);
-
-
+    if(contacts.length === 0){
+        getContacts({ page: 1, limit: 10 });
+    }
   
+  }, [contacts]);
+
   return (
     <div className="p-3 xs:p-4 sm:p-5 md:p-6 lg:p-8 w-full min-h-screen bg-gray-50 dark:bg-gray-900 transition-colors ">
       <SearchBar />

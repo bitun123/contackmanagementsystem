@@ -68,6 +68,9 @@ const contactSlice = createSlice({
     setSearchQuery: (state, action: PayloadAction<string>) => {
       state.searchQuery = action.payload;
     },
+    addContact: (state, action: PayloadAction<Contact>) => {
+      state.contacts = [action.payload, ...state.contacts];
+    },
   },
   extraReducers: (builder) => {
     //pending state
@@ -106,6 +109,7 @@ export const {
   setTotal,
   setEmailStatus,
   setSearchQuery,
+  addContact,
 } = contactSlice.actions;
 
 export default contactSlice.reducer;

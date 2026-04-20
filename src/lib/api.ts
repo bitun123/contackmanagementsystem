@@ -10,8 +10,8 @@ if (!API_BASE_URL) {
 export const fetchContactsThunk = createAsyncThunk<
   ApiResponse<Contact>,
   { search?: string; page?: number; limit?: number; emailStatus?: string },
-  { rejectValue: string }
->("fetchContacts", async (params, { rejectWithValue }) => {
+  { rejectValue: string; state: any }
+>("fetchContacts", async (params, { rejectWithValue, signal }) => {
   try {
     const queryParams = new URLSearchParams();
     if (params.page) queryParams.append("page", params.page.toString());
@@ -22,16 +22,13 @@ export const fetchContactsThunk = createAsyncThunk<
 
     const url = `${API_BASE_URL}?${queryParams.toString()}`;
 
-
-    const response = await fetch(url);
+    const response = await fetch(url, { signal });
 
     if (!response.ok) {
       const errorData = await response.json();
-      console.error("API Error Response:", errorData);
       return rejectWithValue(errorData.message || "Failed to fetch contacts.");
     }
     const data: ApiResponse<Contact> = await response.json();
-    console.log("API Success Response:", data);
 
     return data;
   } catch (error) {

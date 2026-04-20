@@ -6,9 +6,8 @@ import {
   NativeSelectOption,
 } from "@/components/ui/native-select";
 import { useContact } from "@/hooks/useContact";
-
 export function NativeSelectDemo() {
-  const { getContacts, loading } = useContact();
+  const { getContacts, } = useContact();
 
   // State to store the selected value
   const [selectedValue, setSelectedValue] = useState<string>("");
@@ -20,6 +19,9 @@ export function NativeSelectDemo() {
   };
 
   useEffect(() => {
+    if (selectedValue === "") {
+      return;
+    }
     getContacts({ emailStatus: selectedValue });
   }, [selectedValue]);
   return (

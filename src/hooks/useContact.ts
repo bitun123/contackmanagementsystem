@@ -51,11 +51,11 @@ export const useContact = () => {
     if (params.search !== undefined || params.emailStatus !== undefined) {
       dispatch(setCurrentPage(1));
     }
-
-    console.log("getContacts called with finalParams:", finalParams);
     dispatch(fetchContactsThunk(finalParams));
   };
 
+
+  console.log(contacts)
   return {
     contacts,
     loading,
