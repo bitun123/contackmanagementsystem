@@ -5,13 +5,13 @@ import { useEffect, useState } from "react";
 import { ThemeToggle } from "./ThemeToggle";
 
 function SearchBar() {
-  const { getcontacts } = useContact();
+  const { getContacts } = useContact();
 
   const [value, setValue] = useState<string>("");
 
   useEffect(() => {
     const timer = setTimeout(() => {
-      getcontacts({ search: value });
+      getContacts({ search: value });
     }, 1000);
 
     return () => clearTimeout(timer);

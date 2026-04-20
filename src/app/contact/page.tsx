@@ -1,16 +1,17 @@
 "use client";
 import ContactCard from "@/components/ui/ContactCard";
-import { useContact } from "@/hooks/useContact";
+
 import { useEffect } from "react";
 import SearchBar from "@/components/ui/SearchBar";
 import { NativeSelectDemo } from "@/components/ui/EmailStatusFilter";
 import { PaginationDemo } from "@/components/ui/Paginate";
+import { useContact } from "@/hooks/useContact";
 
 function ContactPage() {
-  const { getcontacts, loading, contacts } = useContact();
+  const { getContacts, loading, contacts } = useContact();
 
   useEffect(() => {
-    getcontacts({ page: 1, limit: 10 });
+    getContacts({ page: 1, limit: 10 });
   }, []);
 
 

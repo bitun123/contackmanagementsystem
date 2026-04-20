@@ -1,59 +1,71 @@
-import { fetchContacts } from "@/lib/api";
-import { useContactStore } from "@/store/useContactStore";
-import { ApiResponse, Contact } from "@/types/contact";
+"use client";
 
-// Custom hook to manage contact data
-export function useContact() {
+import { useDispatch, useSelector } from "react-redux";
+
+import { RootState, AppDispatch } from "@/store/store";
+import { fetchContactsThunk } from "../lib/api";
+import {
+  setCurrentPage,
+  setEmailStatus,
+  setSearchQuery,
+} from "@/store/slice/conatactSlice";
+
+export const useContact = () => {
+  const dispatch = useDispatch<AppDispatch>();
+
   const {
     contacts,
-    setContacts,
     loading,
-    setLoading,
     error,
-    setError,
-    currentPage,
-    setCurrentPage,
-    totalPages,
-    setTotalPages,
-    limit,
-    setLimit,
     total,
-    setTotal,
-  } = useContactStore();
+    totalPages,
+    currentPage,
+    limit,
+    emailStatus,
+    searchQuery,
+  } = useSelector((state: RootState) => state.contact);
 
-  // Function to get contacts with optional parameters
-  const getcontacts = async (params: {
+  const getContacts = (params: {
     page?: number;
     limit?: number;
     search?: string;
     emailStatus?: string;
   }) => {
-    try {
-      setLoading(true);
-      const response: ApiResponse<Contact> = await fetchContacts(params);
-      setContacts(response.data);
-      setCurrentPage(response.page);
-      setTotalPages(response.pages);
-      setLimit(response.limit);
-      setTotal(response.total);
-    } catch (error) {
-      setError((error as Error).message);
-    } finally {
-      setLoading(false);
-    }
-  };
-  console.log(loading,  "loading ####")
+    const finalParams = {
+      page:
+        params.page ??
+        (params.search !== undefined || params.emailStatus !== undefined
+          ? 1
+          : currentPage),
+      limit: params.limit ?? limit,
+      search: params.search ?? searchQuery,
+      emailStatus: params.emailStatus ?? emailStatus,
+    };
 
-  // Return the contacts, pagination info, loading state, error state, and the function to fetch contacts
-  return {
-    getcontacts,
-    loading,
-    contacts,
-    error,
-    currentPage,
-    setCurrentPage,
-    totalPages,
-    limit,
-    total,
+    if (params.page) dispatch(setCurrentPage(params.page));
+    if (params.search !== undefined) dispatch(setSearchQuery(params.search));
+    if (params.emailStatus !== undefined)
+      dispatch(setEmailStatus(params.emailStatus));
+
+    // Reset to page 1 if search or status changes
+    if (params.search !== undefined || params.emailStatus !== undefined) {
+      dispatch(setCurrentPage(1));
+    }
+
+    console.log("getContacts called with finalParams:", finalParams);
+    dispatch(fetchContactsThunk(finalParams));
   };
-}
+
+  return {
+    contacts,
+    loading,
+    error,
+    total,
+    totalPages,
+    currentPage,
+    limit,
+    getContacts,
+    emailStatus,
+    searchQuery,
+  };
+};

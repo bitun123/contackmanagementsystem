@@ -1,34 +1,40 @@
-interface childData {
-  _id: string;
-  name: string;
-  value: string;
-  type: string;
-  createdAt: string;
-  updatedAt: string;
-}
+import { z } from "zod";
 
-//define the contact type
-export interface Contact {
-  _id: string;
-  email: string;
-  phone: string;
-  firstName: string;
-  lastName?: string;
-  name: string;
-  city: string;
-  state: string;
-  location: string;
-  emailStatus: "risky" | "safe" | "invalid" | "unverified" | "bounced";
-  remarks: string;
-  dateOfLastContact: string;
-  isActive: boolean;
-  isArchived: boolean;
-  createdAt: string;
-  updatedAt: string;
-  lists: any[];
-  source: childData;
-  status: childData;
-}
+export const childDataSchema = z.object({
+  _id: z.string(),
+  name: z.string(),
+  value: z.string(),
+  type: z.string(),
+  createdAt: z.string(),
+  updatedAt: z.string(),
+});
+
+export type childData = z.infer<typeof childDataSchema>;
+
+//define the contact type schema
+export const ContactSchema = z.object({
+  _id: z.string(),
+  email: z.string().email(),
+  phone: z.string(),
+  firstName: z.string(),
+  lastName: z.string().optional(),
+  name: z.string(),
+  city: z.string(),
+  state: z.string(),
+  location: z.string(),
+  emailStatus: z.enum(["risky", "safe", "invalid", "unverified", "bounced"]),
+  remarks: z.string(),
+  dateOfLastContact: z.string(),
+  isActive: z.boolean(),
+  isArchived: z.boolean(),
+  createdAt: z.string(),
+  updatedAt: z.string(),
+  lists: z.array(z.any()),
+  source: childDataSchema,
+  status: childDataSchema,
+});
+
+export type Contact = z.infer<typeof ContactSchema>;
 
 // Define the api response type
 export interface ApiResponse<T> {

@@ -8,7 +8,7 @@ import {
 import { useContact } from "@/hooks/useContact";
 
 export function NativeSelectDemo() {
-  const { getcontacts, loading } = useContact();
+  const { getContacts, loading } = useContact();
 
   // State to store the selected value
   const [selectedValue, setSelectedValue] = useState<string>("");
@@ -20,7 +20,7 @@ export function NativeSelectDemo() {
   };
 
   useEffect(() => {
-    getcontacts({ emailStatus: selectedValue });
+    getContacts({ emailStatus: selectedValue });
   }, [selectedValue]);
   return (
     <div>

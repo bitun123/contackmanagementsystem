@@ -1,31 +1,41 @@
-import { ApiResponse, Contact } from "@/types/contact";
+import { createAsyncThunk } from "@reduxjs/toolkit";
+import { Contact, ApiResponse } from "../types/contact";
 
-//Define the API base URL
 const API_BASE_URL = process.env.NEXT_PUBLIC_API_URL;
-console.log("API_BASE_URL:", API_BASE_URL);
 
 if (!API_BASE_URL) {
-  throw new Error(
-    "NEXT_PUBLIC_API_URL is not defined in the environment variables",
-  );
+  throw new Error("API base URL is not defined in environment variables.");
 }
 
-//Function to fetch contacts from the API
-export async function fetchContacts(params: {
-  page?: number;
-  limit?: number;
-  search?: string;
-  emailStatus?: string;
-}): Promise<ApiResponse<Contact>> {
-  const queryParams = new URLSearchParams();
-  if (params.page) queryParams.append("page", params.page.toString());
-  if (params.limit) queryParams.append("limit", params.limit.toString());
-  if (params.search) queryParams.append("search", params.search);
-  if (params.emailStatus) queryParams.append("emailStatus", params.emailStatus);
+export const fetchContactsThunk = createAsyncThunk<
+  ApiResponse<Contact>,
+  { search?: string; page?: number; limit?: number; emailStatus?: string },
+  { rejectValue: string }
+>("fetchContacts", async (params, { rejectWithValue }) => {
+  try {
+    const queryParams = new URLSearchParams();
+    if (params.page) queryParams.append("page", params.page.toString());
+    if (params.limit) queryParams.append("limit", params.limit.toString());
+    if (params.search) queryParams.append("search", params.search);
+    if (params.emailStatus)
+      queryParams.append("emailStatus", params.emailStatus);
 
-  const response = await fetch(`${API_BASE_URL}?${queryParams.toString()}`);
+    const url = `${API_BASE_URL}?${queryParams.toString()}`;
 
-  if (!response.ok) throw new Error("Failed to fetch Contacts");
 
-  return response.json();
-}
+    const response = await fetch(url);
+
+    if (!response.ok) {
+      const errorData = await response.json();
+      console.error("API Error Response:", errorData);
+      return rejectWithValue(errorData.message || "Failed to fetch contacts.");
+    }
+    const data: ApiResponse<Contact> = await response.json();
+    console.log("API Success Response:", data);
+
+    return data;
+  } catch (error) {
+    console.error("Thunk Error:", error);
+    return rejectWithValue("Failed to fetch contacts.");
+  }
+});

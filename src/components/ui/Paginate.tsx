@@ -16,12 +16,15 @@ interface PaginateProps {
 }
 
 export function PaginationDemo({ onPageChange }: PaginateProps) {
-  const { currentPage, totalPages, getcontacts } = useContact();
+  const { currentPage, totalPages, getContacts } = useContact();
 
+  
   // Handle page change
   const handlePageChange = (page: number) => {
+
+    console.log("handlePageChange called with page:", page);
     if (page >= 1 && page <= totalPages) {
-      getcontacts({ page });
+      getContacts({ page });
       onPageChange?.(page);
     }
   };

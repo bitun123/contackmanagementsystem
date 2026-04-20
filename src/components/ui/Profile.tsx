@@ -11,7 +11,6 @@ import {
   ArrowLeft,
 } from "lucide-react";
 import { useRouter } from "next/navigation";
-import { useEffect } from "react";
 
 function Profile({ id }: { id: string }) {
   // Get contacts from the custom hook and find the specific contact by ID
@@ -75,7 +74,10 @@ function Profile({ id }: { id: string }) {
               {/* Email */}
               <div className="flex gap-4">
                 <div className="flex-shrink-0">
-                  <Mail size={20} className="text-blue-600 dark:text-blue-400 mt-1" />
+                  <Mail
+                    size={20}
+                    className="text-blue-600 dark:text-blue-400 mt-1"
+                  />
                 </div>
                 <div className="flex-1 min-w-0">
                   <p className="text-xs font-semibold uppercase tracking-wider text-gray-500 dark:text-gray-400 mb-1">
@@ -96,7 +98,10 @@ function Profile({ id }: { id: string }) {
               {/* Phone */}
               <div className="flex gap-4">
                 <div className="flex-shrink-0">
-                  <Phone size={20} className="text-blue-600 dark:text-blue-400 mt-1" />
+                  <Phone
+                    size={20}
+                    className="text-blue-600 dark:text-blue-400 mt-1"
+                  />
                 </div>
                 <div className="flex-1">
                   <p className="text-xs font-semibold uppercase tracking-wider text-gray-500 dark:text-gray-400 mb-1">
@@ -111,7 +116,10 @@ function Profile({ id }: { id: string }) {
               {/* Location */}
               <div className="flex gap-4">
                 <div className="flex-shrink-0">
-                  <MapPin size={20} className="text-blue-600 dark:text-blue-400 mt-1" />
+                  <MapPin
+                    size={20}
+                    className="text-blue-600 dark:text-blue-400 mt-1"
+                  />
                 </div>
                 <div className="flex-1">
                   <p className="text-xs font-semibold uppercase tracking-wider text-gray-500 dark:text-gray-400 mb-1">
@@ -131,7 +139,10 @@ function Profile({ id }: { id: string }) {
               {/* Last Contact Date */}
               <div className="flex gap-4">
                 <div className="flex-shrink-0">
-                  <Calendar size={20} className="text-blue-600 dark:text-blue-400 mt-1" />
+                  <Calendar
+                    size={20}
+                    className="text-blue-600 dark:text-blue-400 mt-1"
+                  />
                 </div>
                 <div className="flex-1">
                   <p className="text-xs font-semibold uppercase tracking-wider text-gray-500 dark:text-gray-400 mb-1">
