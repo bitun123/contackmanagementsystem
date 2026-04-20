@@ -1,10 +1,8 @@
 import React from "react";
 import { useForm } from "react-hook-form";
-import { Button } from "./button";
 import { useDispatch } from "react-redux";
 import { addContact } from "@/store/slice/conatactSlice";
 import { Contact } from "@/types/contact";
-
 
 interface ContactFormInput {
   firstName: string;
@@ -68,31 +66,28 @@ function PopupCreateContactPage({
     };
 
     dispatch(addContact(newContact));
-reset();
+    reset();
     setOpen(false);
   };
 
   if (!open) return null;
 
   return (
-    <div className="fixed inset-0 z-50 flex items-center justify-center bg-black/50 backdrop-blur-sm p-4">
-      <div className="w-full max-w-md rounded-xl bg-background p-6 shadow-lg border border-border">
-        <div className="mb-6 space-y-1 text-center">
-          <h2 className="text-xl font-semibold leading-none tracking-tight">
-            Create New Contact
+    <div className="absolute top-90  inset-0 z-50 flex items-center justify-center p-4 bg-background/60 backdrop-blur-sm animate-in fade-in duration-300">
+      <div className="relative w-full max-w-lg rounded-xl bg-card p-8 shadow-xl border border-border">
+        <div className="relative mb-6 text-center sm:text-left">
+          <h2 className="text-2xl font-bold text-foreground tracking-tight mb-1">
+            New Contact
           </h2>
           <p className="text-sm text-muted-foreground">
-            Fill in the details to add a new contact.
+            Add a new contact to your list.
           </p>
         </div>
 
-        <form onSubmit={handleSubmit(onSubmit)} className="space-y-4">
-          <div className="grid grid-cols-2 gap-4">
-            <div className="space-y-2">
-              <label
-                htmlFor="firstName"
-                className="text-sm font-medium leading-none"
-              >
+        <form onSubmit={handleSubmit(onSubmit)} className="space-y-5">
+          <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
+            <div className="space-y-1.5">
+              <label htmlFor="firstName" className="text-xs font-semibold text-muted-foreground">
                 First Name
               </label>
               <input
@@ -100,14 +95,11 @@ reset();
                 type="text"
                 placeholder="John"
                 {...register("firstName", { required: true })}
-                className="flex h-10 w-full rounded-md border border-input bg-transparent px-3 py-1 text-sm shadow-sm transition-colors placeholder:text-muted-foreground focus-visible:outline-none focus-visible:ring-1 focus-visible:ring-ring disabled:cursor-not-allowed disabled:opacity-50"
+                className="w-full h-10 rounded-md bg-background border border-border px-3 text-sm font-medium outline-none focus:border-primary transition-all"
               />
             </div>
-            <div className="space-y-2">
-              <label
-                htmlFor="lastName"
-                className="text-sm font-medium leading-none"
-              >
+            <div className="space-y-1.5">
+              <label htmlFor="lastName" className="text-xs font-semibold text-muted-foreground">
                 Last Name
               </label>
               <input
@@ -115,13 +107,13 @@ reset();
                 type="text"
                 placeholder="Doe"
                 {...register("lastName", { required: true })}
-                className="flex h-10 w-full rounded-md border border-input bg-transparent px-3 py-1 text-sm shadow-sm transition-colors placeholder:text-muted-foreground focus-visible:outline-none focus-visible:ring-1 focus-visible:ring-ring disabled:cursor-not-allowed disabled:opacity-50"
+                className="w-full h-10 rounded-md bg-background border border-border px-3 text-sm font-medium outline-none focus:border-primary transition-all"
               />
             </div>
           </div>
 
-          <div className="space-y-2">
-            <label htmlFor="email" className="text-sm font-medium leading-none">
+          <div className="space-y-1.5">
+            <label htmlFor="email" className="text-xs font-semibold text-muted-foreground">
               Email Address
             </label>
             <input
@@ -129,67 +121,57 @@ reset();
               type="email"
               placeholder="john@example.com"
               {...register("email", { required: true })}
-              className="flex h-10 w-full rounded-md border border-input bg-transparent px-3 py-1 text-sm shadow-sm transition-colors placeholder:text-muted-foreground focus-visible:outline-none focus-visible:ring-1 focus-visible:ring-ring disabled:cursor-not-allowed disabled:opacity-50"
+              className="w-full h-10 rounded-md bg-background border border-border px-3 text-sm font-medium outline-none focus:border-primary transition-all"
             />
           </div>
 
-          <div className="space-y-2">
-            <label
-              htmlFor="emailStatus"
-              className="text-sm font-medium leading-none"
-            >
-              Email Status
-            </label>
-            <select
-              id="emailStatus"
-              {...register("emailStatus", { required: true })}
-              className=" flex h-10 w-full rounded-md border border-input bg-transparent px-3 py-1 text-sm shadow-sm transition-colors focus-visible:outline-none focus-visible:ring-1 focus-visible:ring-ring disabled:cursor-not-allowed disabled:opacity-50 dark:bg-gray-700 dark:border-gray-600"
-            >
-              <option value="safe">Safe</option>
-              <option value="risky">Risky</option>
-              <option value="invalid">Invalid</option>
-              <option value="unverified">Unverified</option>
-              <option value="bounced">Bounced</option>
-            </select>
-          </div>
+          <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
+            <div className="space-y-1.5">
+              <label htmlFor="emailStatus" className="text-xs font-semibold text-muted-foreground">
+                Verification Status
+              </label>
+              <select
+                id="emailStatus"
+                {...register("emailStatus", { required: true })}
+                className="w-full h-10 rounded-md bg-background border border-border px-3 text-sm font-medium outline-none focus:border-primary transition-all appearance-none cursor-pointer"
+              >
+                <option value="safe">Safe</option>
+                <option value="risky">Risky</option>
+                <option value="invalid">Invalid</option>
+                <option value="unverified">Unverified</option>
+                <option value="bounced">Bounced</option>
+              </select>
+            </div>
 
-          <div className="space-y-3">
-            <label className="text-sm font-medium leading-none">Status</label>
-            <div className="flex items-center gap-6">
-              <label className="flex items-center gap-2 cursor-pointer group">
-                <input
-                  type="radio"
-                  value="active"
-                  {...register("status")}
-                  className="size-4 cursor-pointer accent-primary"
-                />
-                <span className="text-sm font-medium group-hover:text-primary transition-colors">
-                  Active
-                </span>
-              </label>
-              <label className="flex items-center gap-2 cursor-pointer group">
-                <input
-                  type="radio"
-                  value="inactive"
-                  {...register("status")}
-                  className="size-4 cursor-pointer accent-primary"
-                />
-                <span className="text-sm font-medium group-hover:text-primary transition-colors">
-                  Inactive
-                </span>
-              </label>
+            <div className="space-y-1.5">
+              <label className="text-xs font-semibold text-muted-foreground">Engagement</label>
+              <div className="flex items-center gap-2 h-10">
+                <label className="flex-1 flex items-center justify-center gap-2 h-full rounded-md border border-border bg-background hover:bg-muted/50 transition-all cursor-pointer has-[:checked]:bg-primary has-[:checked]:border-primary has-[:checked]:text-primary-foreground">
+                  <input type="radio" value="active" {...register("status")} className="hidden" />
+                  <span className="text-xs font-bold uppercase tracking-wider">Active</span>
+                </label>
+                <label className="flex-1 flex items-center justify-center gap-2 h-full rounded-md border border-border bg-background hover:bg-muted/50 transition-all cursor-pointer has-[:checked]:bg-primary has-[:checked]:border-primary has-[:checked]:text-primary-foreground">
+                  <input type="radio" value="inactive" {...register("status")} className="hidden" />
+                  <span className="text-xs font-bold uppercase tracking-wider">Passive</span>
+                </label>
+              </div>
             </div>
           </div>
 
-          <div className="mt-6 flex justify-end gap-3 pt-4 border-t border-border">
-            <Button
-              variant="outline"
+          <div className="mt-8 flex flex-col sm:flex-row justify-end gap-3 pt-6 border-t border-border/50">
+            <button
               type="button"
               onClick={() => setOpen(false)}
+              className="px-6 py-2 rounded-md border border-border text-sm font-semibold hover:bg-muted/50 transition-colors sm:order-1"
             >
               Cancel
-            </Button>
-            <Button type="submit">Create Contact</Button>
+            </button>
+            <button 
+              type="submit" 
+              className="px-6 py-2 bg-primary text-primary-foreground rounded-md font-semibold text-sm hover:opacity-90 active:scale-95 transition-all outline-none sm:order-2"
+            >
+              Save Contact
+            </button>
           </div>
         </form>
       </div>

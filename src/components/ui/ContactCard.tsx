@@ -1,140 +1,103 @@
 import { Contact } from "@/types/contact";
-import { Mail, MapPin, Calendar } from "lucide-react";
+import { Mail, MapPin, Calendar, ArrowUpRight, ShieldCheck, AlertCircle, XCircle, Clock } from "lucide-react";
 import { useRouter } from "next/navigation";
 import { motion } from "framer-motion";
-// Define status colors for different email statuses
-const statusColors: Record<string, { bg: string; text: string; dot: string }> =
-  {
-    safe: {
-      bg: "bg-emerald-500/10",
-      text: "text-emerald-500",
-      dot: "bg-emerald-500",
-    },
-    risky: {
-      bg: "bg-yellow-500/10",
-      text: "text-yellow-500",
-      dot: "bg-yellow-500",
-    },
-    invalid: {
-      bg: "bg-red-500/10",
-      text: "text-red-500",
-      dot: "bg-red-500",
-    },
-    unverified: {
-      bg: "bg-slate-500/10",
-      text: "text-slate-500",
-      dot: "bg-slate-500",
-    },
-    bounced: {
-      bg: "bg-orange-500/10",
-      text: "text-orange-500",
-      dot: "bg-orange-500",
-    },
-  };
 
-{
-  /* ContactCard component to display individual contact information */
-}
+const statusConfig: Record<string, { bg: string; text: string; icon: any }> = {
+  safe: {
+    bg: "bg-emerald-500/10",
+    text: "text-emerald-500",
+    icon: ShieldCheck,
+  },
+  risky: {
+    bg: "bg-amber-500/10",
+    text: "text-amber-500",
+    icon: AlertCircle,
+  },
+  invalid: {
+    bg: "bg-rose-500/10",
+    text: "text-rose-500",
+    icon: XCircle,
+  },
+  unverified: {
+    bg: "bg-slate-500/10",
+    text: "text-slate-500",
+    icon: Clock,
+  },
+  bounced: {
+    bg: "bg-orange-500/10",
+    text: "text-orange-500",
+    icon: AlertCircle,
+  },
+};
+
 function ContactCard({ contact }: { contact: Contact }) {
   const router = useRouter();
-  // Get the appropriate colors based on the contact's email status
-  const statusColor =
-    statusColors[contact.emailStatus] || statusColors["unverified"];
+  const config = statusConfig[contact.emailStatus] || statusConfig["unverified"];
+  const StatusIcon = config.icon;
 
   const handleClick = (id: string): void => {
     router.push(`/contact/${id}`);
   };
+
   return (
     <motion.div
-      whileHover={{ y: -4 }}
       initial={{ opacity: 0, y: 10 }}
       animate={{ opacity: 1, y: 0 }}
-      transition={{ duration: 0.3 }}
-      className=" group cursor-pointer w-full max-w-md rounded-lg border h-[13rem] border-gray-200 dark:border-gray-700 bg-white dark:bg-gray-800 p-3 sm:p-4 md:p-5 lg:p-6 shadow-sm dark:shadow-lg transition-colors"
+      whileHover={{ y: -2 }}
+      transition={{ duration: 0.2 }}
+      onClick={() => handleClick(contact._id)}
+      className="group cursor-pointer w-full rounded-xl bg-card border border-border p-5 transition-all hover:bg-accent/50 hover:shadow-sm"
     >
-      <div className="w-full relative">
-        {/* Header */}
-        <div className="relative flex flex-col xs:flex-row xs:items-start xs:justify-between mb-3 xs:mb-4 gap-2 xs:gap-3 w-full">
-          <div className="flex items-center gap-2 xs:gap-3 sm:gap-4 flex-1 min-w-0">
-            {/* Avatar */}
-            <div className=" flex h-12 w-12 xs:h-14 xs:w-14 sm:h-16 sm:w-16 items-center justify-center rounded-full bg-gradient-to-br from-blue-200 to-blue-300 dark:from-blue-900 dark:to-blue-700 flex-shrink-0">
-              <span className="text-base xs:text-lg sm:text-xl font-bold text-blue-700 dark:text-blue-300">
-                {contact.name.charAt(0)}
-              </span>
-            </div>
-
-            {/* Name and Email */}
-            <div className="min-w-0 flex-1">
-              <h3 className="text-sm xs:text-base sm:text-lg font-semibold text-gray-900 dark:text-white truncate">
-                {contact.name}
-              </h3>
-              <div className="flex items-center gap-1 xs:gap-2 text-xs xs:text-sm text-gray-600 dark:text-gray-400 min-w-0">
-                <Mail size={14} className="xs:w-4 xs:h-4 flex-shrink-0" />
-                <span className="break-all text-xs xs:text-sm">
-                  {contact.email}
-                </span>
-              </div>
-            </div>
-          </div>
-
-          {/* Status */}
-          <div
-            className={`absolute top-3 right-3 rounded-full ${statusColor.bg} px-2 xs:px-2.5 sm:px-3 py-0.5 xs:py-1 whitespace-nowrap `}
-          >
-            <span className={`text-xs font-medium ${statusColor.text}`}>
-              {contact.emailStatus}
+      <div className="flex items-center gap-4 mb-4">
+        <div className="relative">
+          <div className="w-12 h-12 rounded-lg bg-primary/5 flex items-center justify-center border border-primary/10">
+            <span className="text-lg font-bold text-primary">
+              {contact.name.charAt(0)}
             </span>
           </div>
-        </div>
-
-        <div className="mb-3 xs:mb-4 h-px bg-gray-200 dark:bg-gray-700"></div>
-
-        {/* Bottom Section */}
-        <div className="grid grid-cols-1 sm:grid-cols-2 gap-3 xs:gap-4">
-          {/* Location */}
-          <div className="flex items-start gap-2 xs:gap-3">
-            <MapPin
-              size={16}
-              className="mt-0.5 xs:mt-1 flex-shrink-0 text-gray-500 dark:text-gray-400 xs:w-4 xs:h-4"
-            />
-            <div className="min-w-0 flex-1">
-              <p className="text-xs font-semibold uppercase tracking-wide text-gray-500 dark:text-gray-400">
-                Location
-              </p>
-              <p className="mt-0.5 xs:mt-1 text-xs xs:text-sm text-gray-900 dark:text-gray-100 break-words">
-                {contact.location}
-              </p>
-            </div>
-          </div>
-
-          {/* Last Contact */}
-          <div className="flex items-start gap-2 xs:gap-3 relative">
-            <Calendar
-              size={16}
-              className="mt-0.5 xs:mt-1 flex-shrink-0 text-gray-500 dark:text-gray-400 xs:w-4 xs:h-4"
-            />
-            <div className="min-w-0 flex-1">
-              <p className="text-xs font-semibold uppercase tracking-wide text-gray-500 dark:text-gray-400">
-                Last Contact
-              </p>
-              <p className="mt-0.5 xs:mt-1 text-xs xs:text-sm text-gray-900 dark:text-gray-100">
-                {contact.dateOfLastContact.slice(0, 10)}
-              </p>
-            </div>
-            <button
-              className="absolute top-14 right-1  text-amber-600 dark:text-amber-500 active:scale-95 cursor-pointer hover:text-amber-700 dark:hover:text-amber-400 transition-colors"
-              onClick={() => {
-                handleClick(contact._id);
-              }}
-            >
-              {" "}
-              View Details
-            </button>
+          <div className={`absolute -bottom-1 -right-1 w-4 h-4 rounded-full ${config.bg} border-2 border-background flex items-center justify-center p-0.5`}>
+            <StatusIcon className={`w-full h-full ${config.text}`} />
           </div>
         </div>
+        <div className="min-w-0">
+          <h3 className="text-base font-semibold text-foreground leading-tight group-hover:text-primary transition-colors truncate">
+            {contact.name}
+          </h3>
+          <p className="text-xs text-muted-foreground truncate">
+            {contact.email}
+          </p>
+        </div>
+      </div>
+
+      <div className="space-y-2">
+        <div className="flex items-center gap-2 text-xs text-muted-foreground">
+          <MapPin size={12} className="shrink-0" />
+          <span className="truncate">{contact.location}</span>
+        </div>
+        <div className="flex items-center gap-2 text-xs text-muted-foreground">
+          <Calendar size={12} className="shrink-0" />
+          <span>
+            {new Date(contact.dateOfLastContact).toLocaleDateString('en-US', {
+              month: 'short',
+              day: 'numeric',
+              year: 'numeric'
+            })}
+          </span>
+        </div>
+      </div>
+
+      <div className="mt-4 pt-4 border-t border-border/50 flex items-center justify-between">
+        <div className={`px-2 py-0.5 rounded text-[10px] font-bold uppercase tracking-wider ${config.bg} ${config.text}`}>
+          {contact.emailStatus}
+        </div>
+        <span className="text-[10px] font-medium text-primary opacity-0 group-hover:opacity-100 transition-opacity">
+          View Detail
+        </span>
       </div>
     </motion.div>
   );
 }
 
 export default ContactCard;
+

@@ -4,16 +4,15 @@ import { useContact } from "@/hooks/useContact";
 import { useEffect, useState } from "react";
 import { ThemeToggle } from "./ThemeToggle";
 import PopupCreateContactPage from "./PopupCreateContactPage";
+import { Search, Plus, Sparkles } from "lucide-react";
 
 function SearchBar() {
   const { getContacts } = useContact();
   const [open, setopen] = useState(false);
-
   const [value, setValue] = useState<string>("");
 
   useEffect(() => {
     if (value.trim() === "") {
- 
       return;
     }
     const timer = setTimeout(() => {
@@ -21,29 +20,39 @@ function SearchBar() {
     }, 1000);
 
     return () => clearTimeout(timer);
-  }, [value]);
+  }, [value, getContacts]);
 
   return (
-    <div className="w-full bg-[#F9FAFB]  dark:bg-[#101828] flex items-center  gap-2 justify-between transition-colors border-b border-gray-200 dark:border-gray-600 mb-6 px-2 py-2 shadow-sm">
-      <h1 className="text-xl font-bold hidden lg:block">Contact</h1>
+    <div className="w-full flex items-center gap-4 py-2">
+      <div className="relative flex-1 group">
+        <div className="absolute inset-y-0 left-4 flex items-center pointer-events-none">
+          <Search className="w-5 h-5 text-muted-foreground group-focus-within:text-primary transition-colors" />
+        </div>
+        <input
+          type="text"
+          placeholder="Search for a contact..."
+          className="w-full pl-12 pr-4 py-3.5 rounded-2xl bg-card/40 backdrop-blur-md border border-border/50 text-foreground placeholder:text-muted-foreground outline-none focus:ring-2 focus:ring-primary/20 focus:border-primary/50 transition-all shadow-inner"
+          value={value}
+          onChange={(e) => setValue(e.target.value)}
+        />
+        <div className="absolute inset-y-0 right-4 flex items-center pointer-events-none opacity-0 group-focus-within:opacity-100 transition-opacity">
+          <Sparkles className="w-4 h-4 text-primary animate-pulse" />
+        </div>
+      </div>
 
-      <input
-        type="text"
-        placeholder="Search contacts..."
-        className="text-xl text-black dark:text-white outline-none border-none px-5 py-3  rounded-4xl  bg-gray-400 dark:bg-gray-600 placeholder-gray-600 dark:placeholder-gray-300 lg:w-[40%] w-full transition-colors"
-        value={value}
-        onChange={(e) => setValue(e.target.value)}
-      />
-
-      <div className="flex gap-2">
+      <div className="flex items-center gap-3">
         <button
           onClick={() => setopen(true)}
-          className=" cursor-pointer active:scale-95 px-4 py-2 bg-blue-600 dark:bg-blue-700 text-white rounded-lg hover:bg-blue-700 dark:hover:bg-blue-600 transition-colors"
+          className="group flex items-center gap-2 px-5 py-3.5 bg-primary text-primary-foreground rounded-2xl font-bold transition-all active:scale-95 shadow-lg shadow-primary/20 hover:shadow-primary/30"
         >
-          Create A New Contact
+          <Plus className="w-5 h-5 group-hover:rotate-90 transition-transform" />
+          <span className="hidden sm:inline">Add New</span>
         </button>
-        <ThemeToggle />
+        <div className="p-1 rounded-2xl bg-card/40 border border-border/50 backdrop-blur-md">
+          <ThemeToggle />
+        </div>
       </div>
+
       {open && <PopupCreateContactPage open={open} setOpen={setopen} />}
     </div>
   );

@@ -6,13 +6,12 @@ import {
   NativeSelectOption,
 } from "@/components/ui/native-select";
 import { useContact } from "@/hooks/useContact";
-export function NativeSelectDemo() {
-  const { getContacts, } = useContact();
+import { Filter } from "lucide-react";
 
-  // State to store the selected value
+export function NativeSelectDemo() {
+  const { getContacts } = useContact();
   const [selectedValue, setSelectedValue] = useState<string>("");
 
-  // Handle change event to get the value
   const handleStatusChange = (e: React.ChangeEvent<HTMLSelectElement>) => {
     const value = e.target.value;
     setSelectedValue(value);
@@ -20,23 +19,28 @@ export function NativeSelectDemo() {
 
   useEffect(() => {
     if (selectedValue === "") {
-      return;
+      // Avoid fetching on mount if contacts already exists
+      return; 
     }
-    getContacts({ emailStatus: selectedValue });
-  }, [selectedValue]);
+    getContacts({ emailStatus: selectedValue, page: 1 });
+  }, [selectedValue, getContacts]);
+
   return (
-    <div>
+    <div className="flex items-center gap-2">
+      <div className="p-2 rounded-xl bg-primary/10 border border-primary/20">
+        <Filter className="w-4 h-4 text-primary" />
+      </div>
       <NativeSelect
-        className="mb-5"
+        className="!w-[160px] !h-11 rounded-xl bg-card border-border/50 text-sm font-semibold"
         value={selectedValue}
         onChange={handleStatusChange}
       >
-        <NativeSelectOption value="">All</NativeSelectOption>
-        <NativeSelectOption value="safe">safe</NativeSelectOption>
-        <NativeSelectOption value="invalid">invalid</NativeSelectOption>
-        <NativeSelectOption value="unverified">unverified</NativeSelectOption>
-        <NativeSelectOption value="bounced">bounced</NativeSelectOption>
-        <NativeSelectOption value="risky">risky</NativeSelectOption>
+        <NativeSelectOption value="">Status: All</NativeSelectOption>
+        <NativeSelectOption value="safe">Status: Safe</NativeSelectOption>
+        <NativeSelectOption value="invalid">Status: Invalid</NativeSelectOption>
+        <NativeSelectOption value="unverified">Status: Unverified</NativeSelectOption>
+        <NativeSelectOption value="bounced">Status: Bounced</NativeSelectOption>
+        <NativeSelectOption value="risky">Status: Risky</NativeSelectOption>
       </NativeSelect>
     </div>
   );

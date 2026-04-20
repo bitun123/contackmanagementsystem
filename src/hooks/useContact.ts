@@ -1,5 +1,4 @@
-"use client";
-
+import { useCallback } from "react";
 import { useDispatch, useSelector } from "react-redux";
 
 import { RootState, AppDispatch } from "@/store/store";
@@ -25,7 +24,7 @@ export const useContact = () => {
     searchQuery,
   } = useSelector((state: RootState) => state.contact);
 
-  const getContacts = (params: {
+  const getContacts = useCallback((params: {
     page?: number;
     limit?: number;
     search?: string;
@@ -52,7 +51,7 @@ export const useContact = () => {
       dispatch(setCurrentPage(1));
     }
     dispatch(fetchContactsThunk(finalParams));
-  };
+  }, [dispatch, currentPage, limit, searchQuery, emailStatus]);
 
 
   console.log(contacts)

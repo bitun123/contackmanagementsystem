@@ -49,190 +49,148 @@ function Profile({ id }: { id: string }) {
   };
 
   return (
-    <div className="min-h-screen bg-gradient-to-br from-gray-50 to-gray-100 dark:from-gray-900 dark:to-gray-800 py-6 sm:py-12 px-4 sm:px-6 lg:px-8 transition-colors">
-      {/* Back Button */}
-      <button
-        onClick={handleBack}
-        className="mb-6 flex items-center gap-2 text-gray-600 dark:text-gray-400 hover:text-gray-900 dark:hover:text-gray-200 transition-colors"
-      >
-        <ArrowLeft size={20} />
-        <span className="text-sm font-medium">Back</span>
-      </button>
+    <div className="relative min-h-screen bg-background selection:bg-primary/30 py-12 px-4 sm:px-6 lg:px-8">
 
-      {/* Profile Card */}
-      <div className="max-w-2xl mx-auto">
-        <div className="bg-white dark:bg-gray-800 rounded-lg shadow-lg dark:shadow-2xl overflow-hidden transition-colors">
-          {/* Header Section */}
-          <div className="bg-gradient-to-r from-blue-500 to-blue-600 dark:from-blue-900 dark:to-blue-800 px-6 sm:px-8 py-8 sm:py-10 transition-colors">
-            <div className="flex items-start gap-4 sm:gap-6">
-              {/* Avatar */}
-              <div className="flex h-20 w-20 sm:h-24 sm:w-24 items-center justify-center rounded-full bg-white dark:bg-gray-700 shadow-md flex-shrink-0">
-                <span className="text-3xl sm:text-4xl font-bold text-blue-600 dark:text-blue-300">
-                  {contact.name.charAt(0).toUpperCase()}
-                </span>
+      <div className="relative z-10 max-w-4xl mx-auto">
+        {/* Navigation */}
+        <button
+          onClick={handleBack}
+          className="group mb-12 flex items-center gap-2 text-muted-foreground hover:text-primary transition-all duration-300"
+        >
+          <div className="p-2 rounded-xl bg-card border border-border group-hover:border-primary/30 group-hover:bg-primary/5 transition-all">
+            <ArrowLeft size={18} />
+          </div>
+          <span className="text-sm font-black uppercase tracking-widest">Return to Ledger</span>
+        </button>
+
+        <div className="grid grid-cols-1 lg:grid-cols-3 gap-8">
+          {/* Main Profile Card */}
+          <div className="lg:col-span-2 space-y-8">
+            <div className="relative overflow-hidden rounded-2xl bg-card border border-border shadow-md p-10">
+              <div className="absolute top-0 right-0 p-8">
+                <div className={`px-4 py-1.5 rounded-full ${contact.isActive ? 'bg-emerald-500/10 text-emerald-500' : 'bg-rose-500/10 text-rose-500'} text-[10px] font-black uppercase tracking-[0.2em] border border-current/20`}>
+                  {contact.isActive ? 'Operational' : 'Stagnant'}
+                </div>
               </div>
 
-              {/* Name & Status */}
-              <div className="flex-1 pt-1 sm:pt-2">
-                <h1 className="text-2xl sm:text-3xl font-bold text-white mb-2">
-                  {contact.name}
-                </h1>
+              <div className="flex flex-col sm:flex-row items-center sm:items-start gap-8 mb-12">
+                <div className="relative">
+                  <div className="w-28 h-28 rounded-[2rem] bg-primary/10 flex items-center justify-center border border-primary/20 shadow-inner">
+                    <span className="text-5xl font-black text-primary">
+                      {contact.name.charAt(0).toUpperCase()}
+                    </span>
+                  </div>
+                  <div className="absolute -bottom-2 -right-2 p-2 rounded-xl bg-secondary/10 border border-secondary/20">
+                    <CheckCircle2 className="w-4 h-4 text-secondary" />
+                  </div>
+                </div>
+
+                <div className="text-center sm:text-left pt-2">
+                  <h1 className="text-4xl sm:text-5xl font-black text-foreground tracking-tight mb-2 leading-none">
+                    {contact.name}
+                  </h1>
+                  <p className="text-lg text-primary font-medium opacity-80">{contact.location || "Global Citizen"}</p>
+                </div>
               </div>
 
-              {/* Delete Button UI Only */}
-              <button
-                className="cursor-pointer mt-1 sm:mt-2 text-white/80 hover:text-white bg-red-600/60 hover:bg-red-600 p-2 rounded-lg transition-all"
-                aria-label="Delete contact"
-                onClick={handleDelete}
-              >
-                <Trash2 size={24} />
-              </button>
+              <div className="grid grid-cols-1 sm:grid-cols-2 gap-10">
+                <div className="space-y-6">
+                  <div className="group">
+                    <p className="text-[10px] font-black uppercase tracking-[0.3em] text-muted-foreground/60 mb-2 ml-1">Digital Coordinates</p>
+                    <div className="flex items-center gap-3 p-4 rounded-2xl bg-background/30 border border-border/50 transition-all group-hover:border-primary/30">
+                      <Mail size={18} className="text-primary" />
+                      <div className="flex-1 min-w-0">
+                        <p className="text-sm font-bold text-foreground truncate">{contact.email}</p>
+                      </div>
+                      <button 
+                        onClick={handleCopyEmail}
+                        className="text-[10px] font-black uppercase text-primary/60 hover:text-primary transition-colors pr-2"
+                      >
+                        Copy
+                      </button>
+                    </div>
+                  </div>
+
+                  <div className="group">
+                    <p className="text-[10px] font-black uppercase tracking-[0.3em] text-muted-foreground/60 mb-2 ml-1">Direct Line</p>
+                    <div className="flex items-center gap-3 p-4 rounded-2xl bg-background/30 border border-border/50 transition-all group-hover:border-primary/30">
+                      <Phone size={18} className="text-primary" />
+                      <p className="text-sm font-bold text-foreground">{contact.phone || "Restricted"}</p>
+                    </div>
+                  </div>
+                </div>
+
+                <div className="space-y-6">
+                  <div className="group">
+                    <p className="text-[10px] font-black uppercase tracking-[0.3em] text-muted-foreground/60 mb-2 ml-1">Geographic Hub</p>
+                    <div className="flex items-center gap-3 p-4 rounded-2xl bg-background/30 border border-border/50 transition-all group-hover:border-primary/30">
+                      <MapPin size={18} className="text-secondary" />
+                      <div>
+                        <p className="text-sm font-bold text-foreground">{contact.location || "N/A"}</p>
+                        {contact.city && <p className="text-[10px] text-muted-foreground font-medium">{contact.city}, {contact.state}</p>}
+                      </div>
+                    </div>
+                  </div>
+
+                  <div className="group">
+                    <p className="text-[10px] font-black uppercase tracking-[0.3em] text-muted-foreground/60 mb-2 ml-1">Chronology</p>
+                    <div className="flex items-center gap-3 p-4 rounded-2xl bg-background/30 border border-border/50 transition-all group-hover:border-primary/30">
+                      <Calendar size={18} className="text-secondary" />
+                      <p className="text-sm font-bold text-foreground">
+                        {new Date(contact.dateOfLastContact).toLocaleDateString("en-US", {
+                          month: "long",
+                          day: "numeric",
+                          year: "numeric",
+                        })}
+                      </p>
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </div>
+
+            {/* Remarks Section */}
+            <div className="rounded-2xl bg-card border border-border p-8">
+              <h3 className="text-xs font-black uppercase tracking-[0.4em] text-primary/80 mb-6">Strategic Remarks</h3>
+              <div className="relative">
+                <div className="absolute -left-4 top-0 bottom-0 w-1 bg-primary/20 rounded-full" />
+                <p className="text-base text-foreground leading-relaxed pl-4">
+                  {contact.remarks || "No supplementary strategic data has been logged for this contact."}
+                </p>
+              </div>
             </div>
           </div>
 
-          {/* Content Section */}
-          <div className="px-6 sm:px-8 py-8 sm:py-10">
-            {/* Contact Information */}
-            <div className="space-y-6">
-              {/* Email */}
-              <div className="flex gap-4">
-                <div className="flex-shrink-0">
-                  <Mail
-                    size={20}
-                    className="text-blue-600 dark:text-blue-400 mt-1"
-                  />
-                </div>
-                <div className="flex-1 min-w-0">
-                  <p className="text-xs font-semibold uppercase tracking-wider text-gray-500 dark:text-gray-400 mb-1">
-                    Email Address
-                  </p>
-                  <p className="text-sm sm:text-base text-gray-900 dark:text-gray-100 break-all">
-                    {contact.email}
-                  </p>
-                  <button
-                    className="text-blue-600 dark:text-blue-400 hover:text-blue-800 dark:hover:text-blue-300 text-sm font-medium transition-colors"
-                    onClick={handleCopyEmail}
-                  >
-                    copy
-                  </button>
-                </div>
-              </div>
-
-              {/* Phone */}
-              <div className="flex gap-4">
-                <div className="flex-shrink-0">
-                  <Phone
-                    size={20}
-                    className="text-blue-600 dark:text-blue-400 mt-1"
-                  />
-                </div>
-                <div className="flex-1">
-                  <p className="text-xs font-semibold uppercase tracking-wider text-gray-500 dark:text-gray-400 mb-1">
-                    Phone Number
-                  </p>
-                  <p className="text-sm sm:text-base text-gray-900 dark:text-gray-100">
-                    {contact.phone || "N/A"}
-                  </p>
-                </div>
-              </div>
-
-              {/* Location */}
-              <div className="flex gap-4">
-                <div className="flex-shrink-0">
-                  <MapPin
-                    size={20}
-                    className="text-blue-600 dark:text-blue-400 mt-1"
-                  />
-                </div>
-                <div className="flex-1">
-                  <p className="text-xs font-semibold uppercase tracking-wider text-gray-500 dark:text-gray-400 mb-1">
-                    Location
-                  </p>
-                  <p className="text-sm sm:text-base text-gray-900 dark:text-gray-100">
-                    {contact.location || "N/A"}
-                  </p>
-                  {(contact.city || contact.state) && (
-                    <p className="text-xs sm:text-sm text-gray-600 dark:text-gray-400 mt-1">
-                      {[contact.city, contact.state].filter(Boolean).join(", ")}
-                    </p>
-                  )}
-                </div>
-              </div>
-
-              {/* Last Contact Date */}
-              <div className="flex gap-4">
-                <div className="flex-shrink-0">
-                  <Calendar
-                    size={20}
-                    className="text-blue-600 dark:text-blue-400 mt-1"
-                  />
-                </div>
-                <div className="flex-1">
-                  <p className="text-xs font-semibold uppercase tracking-wider text-gray-500 dark:text-gray-400 mb-1">
-                    Last Contact
-                  </p>
-                  <p className="text-sm sm:text-base text-gray-900 dark:text-gray-100">
-                    {new Date(contact.dateOfLastContact).toLocaleDateString(
-                      "en-US",
-                      {
-                        year: "numeric",
-                        month: "long",
-                        day: "numeric",
-                      },
-                    )}
-                  </p>
-                </div>
-              </div>
-
-              {/* Remarks */}
-
-              {contact.remarks && (
-                <div className="pt-4 border-t border-gray-200 dark:border-gray-700">
-                  <p className="text-xs font-semibold uppercase tracking-wider text-gray-500 dark:text-gray-400 mb-2">
-                    Remarks
-                  </p>
-                  <p className="text-sm text-gray-700 dark:text-gray-300 bg-gray-50 dark:bg-gray-700 p-3 rounded transition-colors">
-                    {contact.remarks}
-                  </p>
-                </div>
-              )}
-            </div>
-
-            {/* Footer Information */}
-            <div className="mt-8 pt-6 border-t border-gray-200 dark:border-gray-700">
-              <div className="grid grid-cols-2 gap-4 text-xs sm:text-sm">
+          {/* Sidebar Actions */}
+          <div className="space-y-6">
+            <div className="rounded-3xl bg-primary text-primary-foreground p-8 shadow-xl shadow-primary/20 overflow-hidden relative group">
+              <div className="absolute -right-4 -top-4 w-24 h-24 bg-white/10 rounded-full blur-2xl group-hover:scale-150 transition-transform duration-700" />
+              <h4 className="text-xs font-black uppercase tracking-widest mb-4 opacity-70">Legacy Metadata</h4>
+              <div className="space-y-4">
                 <div>
-                  <p className="text-gray-500 dark:text-gray-400">Status</p>
-                  <p className="font-semibold text-gray-900 dark:text-gray-100 mt-1">
-                    {contact.isArchived ? (
-                      <span className="flex items-center gap-1">
-                        <Archive size={16} />
-                        Archived
-                      </span>
-                    ) : contact.isActive ? (
-                      <span className="flex items-center gap-1 text-green-600 dark:text-green-400">
-                        <CheckCircle2 size={16} />
-                        Active
-                      </span>
-                    ) : (
-                      <span className="flex items-center gap-1 text-gray-500 dark:text-gray-400">
-                        Inactive
-                      </span>
-                    )}
+                  <p className="text-[10px] uppercase font-bold opacity-60">Identity Established</p>
+                  <p className="text-lg font-black">
+                    {new Date(contact.createdAt).toLocaleDateString("en-US", { month: "short", day: "numeric", year: "numeric" })}
                   </p>
                 </div>
                 <div>
-                  <p className="text-gray-500 dark:text-gray-400">Created</p>
-                  <p className="font-semibold text-gray-900 dark:text-gray-100 mt-1">
-                    {new Date(contact.createdAt).toLocaleDateString("en-US", {
-                      year: "numeric",
-                      month: "short",
-                      day: "numeric",
-                    })}
-                  </p>
+                  <p className="text-[10px] uppercase font-bold opacity-60">Source Origin</p>
+                  <p className="text-lg font-black">{contact.source?.name || "Direct"}</p>
                 </div>
               </div>
             </div>
+
+            <button
+              onClick={handleDelete}
+              className="w-full group flex items-center justify-between p-6 rounded-3xl border border-rose-500/20 bg-rose-500/5 hover:bg-rose-500 hover:border-rose-500 transition-all duration-300"
+            >
+              <div className="flex items-center gap-3">
+                <div className="p-2 rounded-xl bg-rose-500/10 group-hover:bg-white/20 transition-colors">
+                  <Trash2 size={20} className="text-rose-500 group-hover:text-white" />
+                </div>
+                <span className="text-sm font-black uppercase tracking-widest text-rose-500 group-hover:text-white">Purge Record</span>
+              </div>
+            </button>
           </div>
         </div>
       </div>
